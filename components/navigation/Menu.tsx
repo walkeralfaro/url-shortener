@@ -25,33 +25,35 @@ export default function Menu() {
       </SheetTrigger>
       <SheetContent side="top" className="bg-purple-950 border-none">
 
-        <SheetClose className="absolute right-4 top-4 text-white">
-          <X />
-        </SheetClose>
+        <div className="flex justify-between p-4">
+          <SheetHeader className="p-0">
+            <SheetTitle>
+              <p className="text-white text-sm font-black">Shortly</p>
+            </SheetTitle>
+          </SheetHeader>
 
-        <SheetHeader>
-          <SheetTitle>
-            <p className="text-white font-black">Shortly</p>
-          </SheetTitle>
-        </SheetHeader>
+          <SheetClose className="text-white">
+            <X />
+          </SheetClose>
+        </div>
 
         <div className="flex flex-col items-center gap-8 pb-8">
           <div>
-            <button className="text-3xl text-white font-black">Feature</button>
+            <button className="text-xl text-white font-black">Feature</button>
           </div>
           <div>
-            <button className="text-3xl text-white font-black">Pricing</button>
+            <button className="text-xl text-white font-black">Pricing</button>
           </div>
           <div>
-            <button className="text-3xl text-white font-black">Resource</button>
+            <button className="text-xl text-white font-black">Resource</button>
           </div>
 
           <hr className="w-4/5" />
           <div>
-            <button className="text-3xl text-white font-black">Feature</button>
+            <button className="text-xl text-white font-black">Login</button>
           </div>
           <div className="w-full text-center">
-            <Button variant='blue400' className="text-3xl p-8 rounded-full w-4/5">Sing Up</Button>
+            <Button variant='blue400' className="text-xl p-8 rounded-full w-4/5">Sing Up</Button>
           </div>
         </div>
 
