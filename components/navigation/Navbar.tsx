@@ -15,7 +15,7 @@ export function Navbar() {
 
   return (
 
-    <div className="container mx-auto max-w-7xl p-4">
+    <div className="container mx-auto max-w-6xl p-4">
       <div className="flex justify-between">
 
         <div className="flex gap-6 items-center">

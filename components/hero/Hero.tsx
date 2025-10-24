@@ -24,8 +24,8 @@ const Hero = ({
 
 }: HeroProps) => {
   return (
-    <section className="container mx-auto max-w-7xl p-4 mt-10">
-      <div className="grid items-center gap-10 md:grid-cols-2 md:gap-20">
+    <section className="container mx-auto max-w-6xl p-4 mt-10">
+      <div className="grid items-center gap-10 md:grid-cols-2">
 
         {/* To Action */}
         <div className="order-2 md:order1 mx-auto flex flex-col items-center text-center md:ml-auto lg:max-w-3xl lg:items-start lg:text-left">
