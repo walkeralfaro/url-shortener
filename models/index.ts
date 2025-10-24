@@ -1,11 +1,11 @@
-import mongoose, { Schema, model, models } from "mongoose"
+import mongoose, { Schema, Document } from "mongoose"
 
 export interface ILinkModel extends Document {
   shortUrl: string
   url: string
 }
 
-export const LinkModelSchema = new Schema({
+const LinkSchema = new Schema<ILinkModel>({
   shortUrl: {
     type: String,
     required: true,
@@ -15,8 +15,9 @@ export const LinkModelSchema = new Schema({
     type: String,
     required: true
   },
-}, { timestamps: true });
+}, { timestamps: true })
 
-const LinkModel = models.LinkModel || mongoose.model<ILinkModel>("Link", LinkModelSchema)
+const LinkModel = mongoose.models.Link || mongoose.model<ILinkModel>("Link", LinkSchema)
 
 export default LinkModel
+
