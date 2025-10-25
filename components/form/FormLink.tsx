@@ -8,6 +8,9 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card"
+import { Separator } from "../ui/separator"
+import Link from "next/link"
 
 const initialState = {
   success: false,
@@ -70,40 +73,40 @@ export default function FormLink() {
   }
 
   return (
-    <main className="container mx-auto max-w-6xl p-4 mt-16 ">
+    <main className="container mx-auto max-w-6xl p-4">
 
       <div className="md:relative bg-[url(/bg-shorten-mobile.svg)] md:bg-[url(/bg-shorten-desktop.svg)] bg-purple-950 bg-size-[180] md:bg-cover bg-no-repeat bg-top-right p-4 md:p-12 rounded-lg">
-       
-          <Form {...form}>
 
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col justify-between gap-4 md:flex-row">
+        <Form {...form}>
 
-              <FormField
-                control={form.control}
-                name="url"
-                render={({ field }) => (
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col justify-between gap-4 md:flex-row">
 
-                  <FormItem className="flex-1 md:relative">
-                    <FormControl>
-                      <Input className="bg-white rounded-sm" placeholder="Shorten a link here..." {...field} />
-                    </FormControl>
-                    <FormMessage className="text-xs text-red-400 md:absolute md:top-full md:left-0 md:mt-1" />
-                  </FormItem>
-                )}
+            <FormField
+              control={form.control}
+              name="url"
+              render={({ field }) => (
 
-              />
+                <FormItem className="flex-1 md:relative">
+                  <FormControl>
+                    <Input className="bg-white rounded-sm" placeholder="Shorten a link here..." {...field} />
+                  </FormControl>
+                  <FormMessage className="text-xs text-red-400 md:absolute md:top-full md:left-0 md:mt-1" />
+                </FormItem>
+              )}
 
-              <Button
-                type="submit"
-                variant="blue400"
-                disabled={isPending}
-                className="cursor-pointer rounded-sm"
-              >
-                {isPending ? 'Creating...' : 'Shorten It'}
-              </Button>
-            </form>
+            />
 
-          </Form>
+            <Button
+              type="submit"
+              variant="blue400"
+              disabled={isPending}
+              className="cursor-pointer rounded-sm"
+            >
+              {isPending ? 'Creating...' : 'Shorten It'}
+            </Button>
+          </form>
+
+        </Form>
       </div>
 
       {/* Mensajes */}
@@ -113,23 +116,36 @@ export default function FormLink() {
 
       {/* Lista de enlaces guardados */}
       {storedLinks.length > 0 && (
-        <div className="mt-6 space-y-3">
-          <h3 className="text-lg font-semibold">Enlaces creados:</h3>
-          {storedLinks.map((link, i) => (
-            <div
-              key={i}
-              className="flex flex-col md:flex-row md:items-center justify-between bg-white p-3 rounded-md shadow-sm"
-            >
-              <p className="break-all text-gray-700">{link.url}</p>
-              <a
-                href={`/${link.shortUrl}`}
-                target="_blank"
-                className="text-blue-600 font-semibold hover:underline"
-              >
-                {typeof window !== 'undefined' &&
-                  `${window.location.origin}/${link.shortUrl}`}
-              </a>
+        <div className="mt-6 space-y-4">
+          {storedLinks.map((link, index) => (
+
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-5 p-4 bg-white shadow-lg rounded-lg" key={index}>
+              <div className="flex flex-col md:flex-row md:justify-between gap-3 flex-1 min-w-0">
+                <p className="text-gray-700 truncate text-sm">{link.url}</p>
+                <Separator className="md:hidden" />
+                <Link
+                  href={`/r/${link.shortUrl}`}
+                  target="_blank"
+                  className="text-blue-400 text-sm"
+                >
+                  {typeof window !== 'undefined' && `${window.location.origin}/r/${link.shortUrl}`}
+                </Link>
+              </div>
+
+
+              <div>
+                <Button
+                  variant="blue400"
+                  className="cursor-pointer rounded-sm w-full"
+                >
+                  Copy
+                </Button>
+              </div>
+
+
+
             </div>
+
           ))}
         </div>
       )}

@@ -9,7 +9,10 @@ export default function App() {
     <>
       <Navbar></Navbar>
       <Hero></Hero>
-      <FormLink></FormLink>
+      <div className='bg-gray-100 mt-16'>
+        <FormLink></FormLink>
+
+      </div>
     </>
   )
 }
