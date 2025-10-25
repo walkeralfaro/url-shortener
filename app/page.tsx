@@ -11,7 +11,6 @@ export default function App() {
       <Hero></Hero>
       <div className='bg-gray-100 mt-16'>
         <FormLink></FormLink>
-
       </div>
     </>
   )

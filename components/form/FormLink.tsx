@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card"
 import { Separator } from "../ui/separator"
 import Link from "next/link"
 
@@ -28,6 +27,7 @@ export default function FormLink() {
   const [state, formAction] = useActionState(createLink, initialState)
   const [isPending, startTransition] = useTransition()
   const [storedLinks, setStoredLinks] = useState<StoredLink[]>([])
+  const [copiedLinks, setCopiedLinks] = useState<number[]>([])
 
   const form = useForm<LinkSchemaType>({
     resolver: zodResolver(LinkSchema),
@@ -35,6 +35,12 @@ export default function FormLink() {
       url: ''
     }
   })
+
+  // Copiar al portapapeles
+  const handleCopy = async (url: string, index: number) => {
+    await navigator.clipboard.writeText(url)
+    setCopiedLinks([...copiedLinks, index])
+  }
 
   // Leer del localStorage al montar
   useEffect(() => {
@@ -60,7 +66,6 @@ export default function FormLink() {
       // limpiar campo de entrada
       form.reset()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
   const onSubmit = (data: LinkSchemaType) => {
@@ -74,11 +79,9 @@ export default function FormLink() {
 
   return (
     <main className="container mx-auto max-w-6xl p-4">
-
       <div className="md:relative bg-[url(/bg-shorten-mobile.svg)] md:bg-[url(/bg-shorten-desktop.svg)] bg-purple-950 bg-size-[180] md:bg-cover bg-no-repeat bg-top-right p-4 md:p-12 rounded-lg">
 
         <Form {...form}>
-
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col justify-between gap-4 md:flex-row">
 
             <FormField
@@ -104,8 +107,8 @@ export default function FormLink() {
             >
               {isPending ? 'Creating...' : 'Shorten It'}
             </Button>
-          </form>
 
+          </form>
         </Form>
       </div>
 
@@ -117,40 +120,40 @@ export default function FormLink() {
       {/* Lista de enlaces guardados */}
       {storedLinks.length > 0 && (
         <div className="mt-6 space-y-4">
-          {storedLinks.map((link, index) => (
+          {storedLinks.map((link, index) => {
 
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-5 p-4 bg-white shadow-lg rounded-lg" key={index}>
-              <div className="flex flex-col md:flex-row md:justify-between gap-3 flex-1 min-w-0">
-                <p className="text-gray-700 truncate text-sm">{link.url}</p>
-                <Separator className="md:hidden" />
-                <Link
-                  href={`/r/${link.shortUrl}`}
-                  target="_blank"
-                  className="text-blue-400 text-sm"
-                >
-                  {typeof window !== 'undefined' && `${window.location.origin}/r/${link.shortUrl}`}
-                </Link>
+            const isCopied = copiedLinks.some((copiedLink) => copiedLink === index)
+
+            return (
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-5 p-4 bg-white shadow-lg rounded-lg" key={index}>
+                <div className="flex flex-col md:flex-row md:justify-between gap-3 flex-1 min-w-0">
+                  <p className="text-gray-700 truncate text-sm">{link.url}</p>
+                  <Separator className="md:hidden" />
+                  <Link
+                    href={`/r/${link.shortUrl}`}
+                    target="_blank"
+                    className="text-blue-400 text-sm"
+                  >
+                    {typeof window !== 'undefined' && `${window.location.origin}/r/${link.shortUrl}`}
+                  </Link>
+                </div>
+
+                <div>
+                  <Button
+                    variant="blue400"
+                    className={`cursor-pointer rounded-sm w-full ${ isCopied && "bg-purple-950 hover:bg-indigo-950"}`}
+                    onClick={() => handleCopy(`${window.location.origin}/r/${link.shortUrl}`, index)}
+                  >
+                    {
+                      isCopied ? "Copied!" : "Copy"
+                    }
+                  </Button>
+                </div>
               </div>
-
-
-              <div>
-                <Button
-                  variant="blue400"
-                  className="cursor-pointer rounded-sm w-full"
-                >
-                  Copy
-                </Button>
-              </div>
-
-
-
-            </div>
-
-          ))}
+            )}
+          )}
         </div>
       )}
-
-
     </main>
   )
 }
