@@ -3,11 +3,11 @@ import LinkModel from "@/models"
 import { LinkSchema } from "@/schema"
 import { NextResponse } from "next/server"
 
-export async function GET(request: Request, { params }: { params: { shortUrl: string } }
+export async function GET(request: Request, context: { params: Promise<{ shortUrl: string }> }
 ) {
   try {
     await dbConnect()
-    const { shortUrl } = await params
+    const { shortUrl } = await context.params
 
     // Buscar el documento en MongoDB
     const record = await LinkModel.findOne({ shortUrl })
