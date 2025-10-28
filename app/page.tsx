@@ -12,7 +12,7 @@ export default function App() {
     <>
       <Navbar></Navbar>
       <Hero></Hero>
-      <div className='bg-slate-100 mt-10'>
+      <div className='bg-slate-100 mt-10 pb-14'>
         <FormLink></FormLink>
         <Features></Features>
       </div>
