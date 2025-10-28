@@ -22,7 +22,7 @@ interface StoredLink {
   shortUrl: string
 }
 
-export default function FormLink() {
+export function FormLink() {
 
   const [state, formAction] = useActionState(createLink, initialState)
   const [isPending, startTransition] = useTransition()
