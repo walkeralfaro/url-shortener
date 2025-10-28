@@ -1,24 +1,20 @@
-# Frontend Mentor - Shortly URL shortening API Challenge solution by Walker Alfaro
+# Frontend Mentor - Shortly URL shortening API Challenge solution
 
-This is a solution to the [Shortly URL shortening API Challenge challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/url-shortening-api-landing-page-2ce3ob-G). Frontend Mentor challenges help you improve your coding skills by building realistic projects. 
+This is a solution to the [Shortly URL shortening API Challenge challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/url-shortening-api-landing-page-2ce3ob-G) by [Walker Alfaro](https://walkeralfaro.com/). 
 
 ## Table of contents
 
-- [Frontend Mentor - Shortly URL shortening API Challenge solution by Walker Alfaro](#frontend-mentor---shortly-url-shortening-api-challenge-solution-by-walker-alfaro)
+- [Frontend Mentor - Shortly URL shortening API Challenge solution](#frontend-mentor---shortly-url-shortening-api-challenge-solution)
   - [Table of contents](#table-of-contents)
   - [Overview](#overview)
     - [The challenge](#the-challenge)
-    - [Screenshot](#screenshot)
     - [Links](#links)
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
     - [Continued development](#continued-development)
-    - [Useful resources](#useful-resources)
   - [Author](#author)
-  - [Acknowledgments](#acknowledgments)
 
-**Note: Delete this note and update the table of contents based on what sections you keep.**
 
 ## Overview
 
@@ -33,22 +29,10 @@ Users should be able to:
 - Receive an error message when the `form` is submitted if:
   - The `input` field is empty
 
-### Screenshot
-
-![](./screenshot.jpg)
-
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
-
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it. 
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
-
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [Code](https://github.com/walkeralfaro/url-shortener.git)
+- Live Site URL: [Urlshortener](https://urlshortener.walkeralfaro.com/)
 
 ## My process
 
@@ -61,55 +45,44 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - Mongoose
 - MongoDB Atlas
 
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
 
 ### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+I developed this project **without using the [Clean URI API](https://cleanuri.com/docs)**, which was originally suggested in the challenge. Instead, I built a **custom backend** that handles **GET requests** to any route following the pattern `mydomain.com/r/123abc`.
 
-To see how you can add code snippets, see below:
+When this request is made, the backend performs the following steps:
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
+1. **Checks the database** to see if the provided parameter (`123abc`) exists.
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+   ```js
+   const record = await LinkModel.findOne({ shortUrl });
+   ```
+2. **Retrieves the corresponding original URL** associated with that short code.
+3. **Validates that the retrieved URL is a real and properly formatted address**, using a schema defined with **Zod**:
 
-**Note: Delete this note and the content within this section and replace with your own learnings.**
+   ```js
+   const parsed = LinkSchema.safeParse({ url: record.url });
+   ```
+
+For **input validation**, I used **Zod** both on the frontend and backend to ensure data consistency across the entire stack.
+
+This project was built with **Next.js**, taking advantage of its **full-stack capabilities**, and uses **MongoDB Atlas** as the database.
 
 ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+This project has the potential to evolve into a **fully functional URL shortening service**. A good starting point would be to **add authentication**, supporting both **email/password** and **Google OAuth** login.
 
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
+Each registered user would have access to their own collection of shortened URLs once logged in.
 
-### Useful resources
+Additionally, the platform could be expanded with features such as:
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
-
-**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.**
+* **Analytics** to track how many times each shortened link has been accessed.
+* **Custom branded URLs** for businesses.
+* **UTM campaign tracking** for marketing purposes.
+* Other tools to enhance link management and insights.
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
+- [Walker Alfaro](https://walkeralfaro.com/)
+- Frontend Mentor: [@walkeralfaro](https://www.frontendmentor.io/profile/walkeralfaro)
 
-**Note: Delete this note and add/remove/edit lines above based on what links you'd like to share.**
-
-## Acknowledgments
-
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
-
-**Note: Delete this note and edit this section's content as necessary. If you completed this challenge by yourself, feel free to delete this section entirely.**
